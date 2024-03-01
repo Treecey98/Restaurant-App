@@ -1,7 +1,7 @@
 import NavBar from './NavBar'
-import Filter from './FilterApp'
 import InteractiveMap from './HomeMap'
 import Footer from './Footer'
+import Filter from './FilterApp'
 
 function App() {
   return (

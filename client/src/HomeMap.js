@@ -4,16 +4,17 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import Map from 'react-map-gl'
 
 function InteractiveMap() {
+
   return (
     <Map
-      mapboxAccessToken="pk.eyJ1IjoidHJlZWNleXkiLCJhIjoiY2w2cWVjYXgwMGc1cDNqb3d5dWMzZTUxMiJ9.RXB5JWk2b5aYuq3DZPF6vA"
+      mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
       initialViewState={{
-        longitude: -122.4,
-        latitude: 37.8,
-        zoom: 14
+        longitude: -0.11,
+        latitude: 51.50,
+        zoom: 11
       }}
-      style={{width: 600, height: 400}}
-      mapStyle="mapbox://styles/mapbox/streets-v9"
+      style={{width: 1400, height: 632}}
+      mapStyle="mapbox://styles/mapbox/dark-v11"
     />
   );
 }

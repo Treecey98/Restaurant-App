@@ -14,7 +14,7 @@ function Filter() {
                         </li>
 
                         <li>
-                            <p>Distance away (km):</p>
+                            <p>Distance(km):</p>
                             <select name="distance">
                                 <option value="near">0-1</option>
                             </select>
@@ -22,7 +22,7 @@ function Filter() {
 
 
                         <li style = {{paddingRight: "40px"}}>
-                            <p>Price (£):</p>
+                            <p>Price(£):</p>
                             <select name="price">
                                 <option value="cheap">10-20</option>
                             </select>
