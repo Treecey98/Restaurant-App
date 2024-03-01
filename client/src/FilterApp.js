@@ -28,7 +28,7 @@ function Filter() {
                             </select>
                         </li>
                     </ul>
-                    <div class="filter-search-btn">
+                    <div className="filter-search-btn">
                         <input type="submit" value="Search" className="search-btn"/>
                     </div>
                    

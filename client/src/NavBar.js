@@ -5,7 +5,7 @@ function NavBar() {
     return (
        <div className="navbar--container">
             <h1 style={{color: 'white', marginLeft: "10px"}}>Restaurant Chooser</h1>
-            <img src={DefaultPhoto} alt="user" class="user-photo"></img>
+            <img src={DefaultPhoto} alt="user" className="user-photo"></img>
        </div> 
     )
 }
