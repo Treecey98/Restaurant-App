@@ -11,3 +11,74 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+ul {
+  list-style-type: none;
+}
+
+ul select {
+  padding: 5px;
+  width: 80px;
+}
+
+.navbar--container {
+  background-color: #80A1C1;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px black;
+}
+
+.user-photo {
+  border: solid 2px black;
+  border-radius: 50%;
+  height: 50px;
+  margin: 10px;
+}
+
+.filter--container {
+  width: 50%;
+  margin: auto;
+  border: 0.5px solid #80A1C1;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.filter-header {
+  text-align: center;
+}
+
+.filter-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-search-btn {
+  margin: auto;
+  width: 50%;
+  text-align: center
+}
+
+.search-btn {
+  padding: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 0.5px solid #80A1C1;
+  border-radius: 10px;
+  background-color: #80A1C1;
+  color: white;
+}
+
+.footer--container {
+  background-color: #80A1C1;
+  border-top: solid 1px black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+}
+
+.footer-text {
+  color: white;
+  text-align: center;
+  font-size: 14px;
+}
