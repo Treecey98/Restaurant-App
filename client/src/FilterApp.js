@@ -1,8 +1,12 @@
 import './index.css'
+import { useState } from 'react'
 
 function Filter() {
+
+    const [show, showContainer] = useState(true);
+
     return (
-        <div className="filter--container">
+        <div className= {show ? "filter--container" : "filter--container-hidden"}>
             <h2 className="filter-header">Find a restaurant to eat at!</h2>
                 <form action="#">
                     <ul className="filter-options">
@@ -29,7 +33,11 @@ function Filter() {
                         </li>
                     </ul>
                     <div className="filter-search-btn">
-                        <input type="submit" value="Search" className="search-btn"/>
+                        <input 
+                            onClick={() => showContainer(!show)}
+                            type="submit" 
+                            value="Search" 
+                            className="search-btn"/>
                     </div>
                    
                 </form>

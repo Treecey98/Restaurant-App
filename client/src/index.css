@@ -28,6 +28,36 @@ ul select {
   border-bottom: solid 2px white;
 }
 
+.navbar-dropdown {
+  position: absolute;
+  right: 10px;
+  top: 75px;
+  z-index: 2;
+  color: #80A1C1;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #80A1C1;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.navbar-dropdown:before {
+  content: '';
+  position: absolute;
+  top: -8.25px;
+  right: 12px;
+  width: 15px;
+  height: 15px;
+  transform: rotate(45deg);
+  background-color: white;
+  border-left: 1px solid #80A1C1;
+  border-top: 1px solid #80A1C1;
+}
+
+.navbar-dropdown li {
+  padding: 10px;
+}
+
 .user-photo {
   border: solid 2px white ;
   border-radius: 50%;
@@ -45,6 +75,10 @@ ul select {
   border-radius: 10px;
   margin-top: 10px;
   z-index: 1
+}
+
+.filter--container-hidden {
+  display: none;
 }
 
 .filter-header {
