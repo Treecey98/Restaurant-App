@@ -151,3 +151,37 @@ ul select {
   border: none;
   cursor: pointer;
 }
+
+.user-container {
+  width: 50%;
+  margin: auto;
+  border: solid 1px #80A1C1;
+  border-radius: 10px;
+  height: 310px;
+}
+
+.user-profile-title {
+  text-align: center;
+}
+
+.user-container li {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.user-profile-edit-btn {
+  margin-right: 5px;
+  padding: 12px;
+  border: 0.5px solid #80A1C1;
+  border-radius: 60%;
+  background-color: #80A1C1;
+  color: white;
+  width: 150px;
+  font-size: 16px;
+  align-self: flex-end;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}

@@ -12,13 +12,19 @@ function User() {
                 <button onClick={()=>navigate("/")} className="back-button">Back</button>
             </div> 
 
-            <h1>User Profile</h1>
+            <div className="user-container">
+                <h1 className="user-profile-title">User Profile</h1>
+                
+                <div className='user-details'>
+                    <ul>
+                        <li>Name: </li>
+                        <li>Email: </li>
+                        <li>Full Address: </li>
+                    </ul>
 
-            <ul>
-                <li>Name: </li>
-                <li>Email: </li>
-                <li>Full Address: </li>
-            </ul>
+                    <button className="user-profile-edit-btn">Edit details</button>
+                </div>
+            </div>
         </>
     )
 }
