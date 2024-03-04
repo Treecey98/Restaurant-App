@@ -1,16 +1,17 @@
-import NavBar from './NavBar'
-import InteractiveMap from './HomeMap'
-import Footer from './Footer'
-import Filter from './FilterApp'
+import HomePage from './pages/HomePage'
+import UserProfile from './pages/UserProfile'
+import NavBar from './components/NavBar'
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <NavBar></NavBar>
-      <Filter></Filter>
-      <InteractiveMap></InteractiveMap>
-      <Footer></Footer>
-    </div>
+    <>
+      <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/viewuser/:userId" element={<UserProfile />} />
+        </Routes>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import './index.css'
+import '../index.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // import React, { useState } from 'react'
 import Map from 'react-map-gl'
