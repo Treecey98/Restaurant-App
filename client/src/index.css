@@ -58,6 +58,10 @@ ul select {
   padding: 10px;
 }
 
+.navbar-dropdown-options li:hover {
+  cursor: pointer;
+}
+
 .user-photo {
   border: solid 2px white ;
   border-radius: 50%;
@@ -121,4 +125,29 @@ ul select {
   color: white;
   text-align: center;
   font-size: 14px;
+}
+
+.arrow-container {
+  display: flex;
+  justify-items: center;
+  margin: 0px 10px;
+}
+
+.left-arrow {
+  border: solid #80A1C1 ;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.back-button {
+  margin-left: 0px;
+  font-size: 18px;
+  color: #80A1C1;
+  text-decoration: #80A1C1 underline;
+  background-color: white;
+  border: none;
+  cursor: pointer;
 }

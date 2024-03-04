@@ -7,6 +7,10 @@ function NavBar() {
 
     const [open, openDropdown] = useState(false);
 
+    function newPageCloseDropdown(state){
+        openDropdown(state)
+    }
+
     return (
        <div className="navbar--container">
             <h1 style={{color: 'white', marginLeft: "10px"}}>Restaurant Chooser</h1>
@@ -17,7 +21,7 @@ function NavBar() {
                 className="user-photo"></img>
 
             {
-                open && <DropDown />
+                open && <DropDown newPageCloseDropdown={newPageCloseDropdown} />
             }
        </div> 
     )
