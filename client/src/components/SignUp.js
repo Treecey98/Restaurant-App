@@ -1,0 +1,10 @@
+import './index.css'
+
+function SignUp() {
+    return(
+        <>
+        </>
+    )
+}
+
+export default SignUp
