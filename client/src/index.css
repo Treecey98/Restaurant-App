@@ -153,7 +153,7 @@ ul select {
 }
 
 .user-container {
-  width: 50%;
+  width: 40%;
   margin: auto;
   border: solid 1px #80A1C1;
   border-radius: 10px;
@@ -184,4 +184,47 @@ ul select {
 .user-details {
   display: flex;
   flex-direction: column;
+}
+
+.signup-container {
+  width: 40%;
+  margin: auto;
+  border: solid 1px #80A1C1;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.signup-title {
+  text-align: center;
+}
+
+.signup-inputs {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.signup-inputs label {
+  font-weight: 300;
+}
+
+.signup-inputs input {
+  width: 50%;
+  padding: 5px;
+  margin: 5px 0px 5px 0px;
+  justify-content: center;
+}
+
+.signup-btn {
+  margin-right: 5px;
+  margin-top: 10px;
+  padding: 12px;
+  border: 0.5px solid #80A1C1;
+  border-radius: 60%;
+  background-color: #80A1C1;
+  color: white;
+  width: 150px;
+  font-size: 16px;
+  align-self: flex-end;
 }
