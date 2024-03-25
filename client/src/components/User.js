@@ -9,7 +9,7 @@ function User() {
         <>
            <div className="arrow-container">
                 <p className="left-arrow"></p>
-                <button onClick={()=>navigate("/")} className="back-button">Back</button>
+                <button onClick={()=>navigate("/home")} className="back-button">Back</button>
             </div> 
 
             <div className="user-container">

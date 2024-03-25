@@ -112,6 +112,10 @@ ul select {
   font-size: 16px;
 }
 
+.search-btn:hover {
+  cursor: pointer;
+}
+
 .footer--container {
   background-color: #80A1C1;
   border-top: solid 2px white;
@@ -181,6 +185,10 @@ ul select {
   align-self: flex-end;
 }
 
+.user-profile-edit-btn:hover {
+  cursor: pointer;
+}
+
 .user-details {
   display: flex;
   flex-direction: column;
@@ -212,13 +220,12 @@ ul select {
 .signup-inputs input {
   width: 50%;
   padding: 5px;
-  margin: 5px 0px 5px 0px;
+  margin: 5px 0px 15px 0px;
   justify-content: center;
 }
 
 .signup-btn {
-  margin-right: 5px;
-  margin-top: 10px;
+  margin: auto;
   padding: 12px;
   border: 0.5px solid #80A1C1;
   border-radius: 60%;
@@ -228,3 +235,59 @@ ul select {
   font-size: 16px;
   align-self: flex-end;
 }
+
+.signup-btn:hover {
+  cursor: pointer;
+}
+
+.login-container {
+  width: 40%;
+  margin: auto;
+  border: solid 1px #80A1C1;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.login-title {
+  text-align: center;
+}
+
+.login-inputs {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.login-inputs input {
+  width: 50%;
+  padding: 5px;
+  margin: 5px 0px 15px 0px;
+  justify-self: center;
+}
+
+.login-btn {
+  margin: auto;
+  padding: 12px;
+  border: 0.5px solid #80A1C1;
+  border-radius: 60%;
+  background-color: #80A1C1;
+  color: white;
+  width: 150px;
+  font-size: 16px;
+}
+
+.create-profile {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.create-profile span {
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.create-profile span:hover {
+  cursor: pointer;
+}
+

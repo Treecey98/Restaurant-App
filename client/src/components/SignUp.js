@@ -1,6 +1,10 @@
 import '../index.css'
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
+
+    let navigate = useNavigate();
+
     return(
         <div className="signup-container">
             <h2 className="signup-title">Sign Up</h2>
@@ -18,7 +22,7 @@ function SignUp() {
                 <label>Postcode</label>
                 <input type="text" />
 
-                <button className="signup-btn">Sign Up</button>
+                <button className="signup-btn" onClick={() => navigate('/home')}>Sign Up</button>
             </div>
         </div>
     )
