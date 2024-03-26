@@ -1,18 +1,31 @@
 import '../index.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
+import Axios from 'axios';
 
 function SignUp() {
 
-    const [name, setName] = useState('');
+    let navigate = useNavigate();
+
+    const [fullname, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [address1, setAddress1] = useState('');
     const [address2, setAddress2] = useState('');
     const [postcode, setPostcode] = useState('');
 
+    const register = () => {
+        Axios.post("http://localhost:3001/register", {
+            fullname: fullname,
+            email: email,
+            password: password,
+            address1: address1,
+            address2: address2,
+            postcode: postcode,
+        })
 
-    let navigate = useNavigate();
+        navigate('/home')
+    } 
 
     return(
         <div className="signup-container">
@@ -61,7 +74,7 @@ function SignUp() {
                     }}
                 />
 
-                <button className="signup-btn" onClick={() => navigate('/home')}>Sign Up</button>
+                <button className="signup-btn" onClick={() => register() }>Sign Up</button>
             </div>
         </div>
     )
