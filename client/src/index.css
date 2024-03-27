@@ -197,6 +197,7 @@ ul select {
 .signup-container {
   width: 40%;
   margin: auto;
+  margin-top: 20px;
   border: solid 1px #80A1C1;
   border-radius: 10px;
   padding: 10px;
@@ -243,6 +244,7 @@ ul select {
 .login-container {
   width: 40%;
   margin: auto;
+  margin-top: 20px;
   border: solid 1px #80A1C1;
   border-radius: 10px;
   padding: 10px;
@@ -275,6 +277,10 @@ ul select {
   color: white;
   width: 150px;
   font-size: 16px;
+}
+
+.login-btn:hover {
+  cursor: pointer;
 }
 
 .create-profile {
