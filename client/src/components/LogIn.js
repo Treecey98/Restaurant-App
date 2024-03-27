@@ -20,7 +20,7 @@ function LogIn() {
             if (response.data.message) {
                 setLoginStatus(response.data.message)
             } else {
-                navigate('/home')
+                navigate(`/home/${response.data[0].id}`)
             }
         })
     }
@@ -50,7 +50,7 @@ function LogIn() {
                 <h4 className="create-profile">If you do not have a profile, please click {<span onClick={()=>navigate('/signup')}>here</span>} to create one.</h4>
             </div>
 
-            <div>
+            <div className="login-status">
                 <h3>{loginStatus}</h3>
             </div>
 

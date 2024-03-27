@@ -1,12 +1,16 @@
 import '../index.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function DropDown({newPageCloseDropdown}) {
 
     let navigate = useNavigate();
 
+    let { userId } = useParams();
+
+    console.log(userId);
+
     function handleClick() {
-        navigate('/viewuser/:userId')
+        navigate(`/viewuser/${userId}`)
         newPageCloseDropdown(false)
     }
 

@@ -283,6 +283,12 @@ ul select {
   cursor: pointer;
 }
 
+.login-status {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
 .create-profile {
   font-size: 12px;
   font-weight: normal;
