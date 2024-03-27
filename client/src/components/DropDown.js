@@ -7,8 +7,6 @@ function DropDown({newPageCloseDropdown}) {
 
     let { userId } = useParams();
 
-    console.log(userId);
-
     function handleClick() {
         navigate(`/viewuser/${userId}`)
         newPageCloseDropdown(false)
