@@ -246,6 +246,7 @@ ul select {
   width: 150px;
   font-size: 16px;
   align-self: flex-end;
+  height: 50px;
 }
 
 .signup-btn:hover {
