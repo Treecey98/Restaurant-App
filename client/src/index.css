@@ -157,11 +157,11 @@ ul select {
 }
 
 .user-container {
-  width: 40%;
+  width: 42%;
   margin: auto;
   border: solid 1px #80A1C1;
   border-radius: 10px;
-  height: 380px;
+  height: 550px;
 }
 
 .user-profile-title {

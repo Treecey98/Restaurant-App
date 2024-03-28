@@ -12,26 +12,41 @@ function User() {
     
     let [fullname, setName] = useState('')
     let [email, setEmail] = useState('')
-    let [fulladdress, setAddress] = useState('')
+    let [address1, setAddress1] = useState('')
+    let [address2, setAddress2] = useState('')
+    let [postcode, setPostcode] = useState('')
+
+    let[fullAddress, setFullAddress] = useState({})
 
     useEffect(() => {
         Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
             setName(response.data[0].name)
             setEmail(response.data[0].email)
+            setAddress1(response.data[0].address1)
+            setAddress2(response.data[0].address2)
+            setPostcode(response.data[0].postcode)
 
-            const address1 = response.data[0].address1;
-            const address2 = response.data[0].address2;
-            const postcode = response.data[0].postcode
-
-            const address = `${address1}, ${address2}, ${postcode}`
-
-            setAddress(address)
+            setFullAddress({
+                address: `${response.data[0].address1}, ${response.data[0].address2}, ${response.data[0].postcode}`
+            })
         })
     }, []);
+
+    const updateUserDetails = () => {
+        Axios.put(`http://localhost:3001/updateUserDetails/${userId}`, {
+            fullname: fullname,
+            email: email,
+            address1: address1,
+            address2: address2,
+            postcode: postcode,
+        })
+    }
     
     let [disabledStatus, setDisabled] = useState(true);
     let [disabledStatus2, setDisabled2] = useState(true);
     let [disabledStatus3, setDisabled3] = useState(true);
+    let [disabledStatus4, setDisabled4] = useState(true);
+    let [disabledStatus5, setDisabled5] = useState(true);
 
     return (
         <>
@@ -67,18 +82,43 @@ function User() {
                             </div>
                             
                             <div className='user-details'>
-                                <li>Address: <input 
+                                <li>First line of address: <input 
                                     type="text" 
-                                    value={fulladdress} 
-                                    onChange={e => setAddress(e.target.value) }
+                                    value={address1} 
+                                    onChange={e => setAddress1(e.target.value) }
                                     disabled={disabledStatus3} /></li>
                                 <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled3(!disabledStatus3)}>Filled</EditIcon>
+                            </div> 
+
+                            <div className='user-details'>
+                                <li>Second line of address: <input 
+                                    type="text" 
+                                    value={address2} 
+                                    onChange={e => setAddress2(e.target.value) }
+                                    disabled={disabledStatus4} /></li>
+                                <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled4(!disabledStatus4)}>Filled</EditIcon>
+                            </div> 
+
+                            <div className='user-details'>
+                                <li>Postcode: <input 
+                                    type="text" 
+                                    value={postcode} 
+                                    onChange={e => setPostcode(e.target.value) }
+                                    disabled={disabledStatus5} /></li>
+                                <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled5(!disabledStatus5)}>Filled</EditIcon>
+                            </div> 
+
+                            <div className='user-details'>
+                                <li>Full address: <input 
+                                    type="text" 
+                                    value={fullAddress.address}
+                                    disabled={true}/></li>
                             </div> 
                             
                         </ul> 
                     
                     </div>
-                    <button className="user-profile-edit-btn">Save details</button>
+                    <button className="user-profile-edit-btn" onClick={() => updateUserDetails()}>Save details</button>
                 </div>
             </div>
             
