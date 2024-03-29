@@ -1,6 +1,6 @@
 import '../index.css'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Axios from 'axios'
 
 function LogIn() {
@@ -11,6 +11,8 @@ function LogIn() {
     const [password, setPassword] = useState('');
 
     const [loginStatus, setLoginStatus] = useState('');
+
+    Axios.defaults.withCredentials = true
 
     const login = () => {
         Axios.post("http://localhost:3001/login", {
@@ -24,6 +26,12 @@ function LogIn() {
             }
         })
     }
+
+    useEffect(() => {
+        Axios.get("http://localhost:3001/login").then((response) => {
+            console.log(response);
+        })
+    }, [])
 
     return(
         <div>
