@@ -117,6 +117,7 @@ app.get('/userDetails/:userId', (req, res) => {
     )
 })
 
+
 app.put('/updateUserDetails/:userId', (req, res) => {
 
     const id = req.params.userId
