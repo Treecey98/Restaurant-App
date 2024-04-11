@@ -29,8 +29,29 @@ function Filter() {
     const listOfPlaces = async () => {
 
         try {
+            const totalRestaurants = [];
+            const randomRestaurants = [];
             const data = await Axios.get(URL, options)
-            console.log(data)
+
+            data.data.forEach((element, index, array) => {
+                if (element.BusinessType === "Restaurant/Cafe/Canteen"){
+                    totalRestaurants.push(element)
+                }
+            })
+
+            const maxNumber = totalRestaurants.length;
+
+            const numberOfRestaurants = 5;
+            var i;
+
+            for(i=0; i<numberOfRestaurants ;i++){
+                const randomIndex = Math.floor(Math.random() * maxNumber + 1)
+                randomRestaurants.push(totalRestaurants[randomIndex]);
+            }
+
+            console.log(randomRestaurants);
+
+            
         } catch (error){
             console.log(error)
         }
