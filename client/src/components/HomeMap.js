@@ -13,7 +13,7 @@ function InteractiveMap() {
         latitude: 51.50,
         zoom: 11
       }}
-      style={{width: 1400, height: 632}}
+      style={{width: "100%", height: 632}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
     />
   );

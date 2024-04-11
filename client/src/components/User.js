@@ -91,7 +91,7 @@ function User() {
                             </div> 
 
                             <div className='user-details'>
-                                <li>Second line of address: <input 
+                                <li>Town: <input 
                                     type="text" 
                                     value={address2} 
                                     onChange={e => setAddress2(e.target.value) }
