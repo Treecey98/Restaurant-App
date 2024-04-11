@@ -91,7 +91,7 @@ function User() {
                             </div> 
 
                             <div className='user-details'>
-                                <li>Town: <input 
+                                <li>District council / Borough: <input 
                                     type="text" 
                                     value={address2} 
                                     onChange={e => setAddress2(e.target.value) }

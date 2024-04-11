@@ -253,6 +253,11 @@ ul select {
   cursor: pointer;
 }
 
+.signup-warning {
+  font-size: 12px;
+  font-weight: bold;
+}
+
 .login-container {
   width: 40%;
   margin: auto;

@@ -1,8 +1,7 @@
 import '../index.css'
 import Axios from 'axios'
-import { useState } from 'react'
-
-const URL = 'https://wyre-data.p.rapidapi.com/restaurants/localauthority/bromley'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 const options = {
   headers: {
@@ -11,8 +10,19 @@ const options = {
   }
 };
 
-
 function Filter() {
+
+    let {userId} = useParams();
+
+    const[userAddressDetails, setAddressDetails] = useState([])
+
+    useEffect(() => {
+        Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
+            setAddressDetails(response.data[0])
+        })
+    }, []);
+
+    const URL = `https://wyre-data.p.rapidapi.com/restaurants/localauthority/${userAddressDetails.address2}`
 
     const [show, showContainer] = useState(true);
 
@@ -28,9 +38,9 @@ function Filter() {
 
     return (
         <div className= {show ? "filter--container" : "filter--container-hidden"}>
-            <h2 className="filter-header">Find a restaurant to eat at!</h2>
+            <h2 className="filter-header">Find a local restaurant to eat at!</h2>
                 <div className="filter-search-btn">
-                    <button className="search-btn">Search</button>
+                    <button className="search-btn" onClick={() => listOfPlaces()}>Search</button>
                 </div>
         </div>
     )

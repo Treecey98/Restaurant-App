@@ -28,7 +28,8 @@ function SignUp() {
                     <input {...register("password", { required: true})} />
                     <label>First line of address*</label>
                     <input {...register("address1", { required: true})} />
-                    <label>Town*</label>
+                    <label>District council*</label>
+                    <p className="signup-warning">If living in London please put your borough</p>
                     <input {...register("address2", { required: true})} />
                     <label>Postcode*</label>
                     <input {...register("postcode", { required: true})} />
