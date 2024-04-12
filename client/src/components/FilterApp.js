@@ -10,7 +10,7 @@ const options = {
   }
 };
 
-function Filter() {
+function Filter( {sendRestaurantDataToMap}) {
 
     let {userId} = useParams();
 
@@ -26,11 +26,13 @@ function Filter() {
 
     const [show, showContainer] = useState(true);
 
+    const [randomRestaurants, setRandomRestaurants] = useState();
+
     const listOfPlaces = async () => {
 
         try {
             const totalRestaurants = [];
-            const randomRestaurants = [];
+            const fiveRestaurants = [];
             const data = await Axios.get(URL, options)
 
             data.data.forEach((element, index, array) => {
@@ -46,11 +48,12 @@ function Filter() {
 
             for(i=0; i<numberOfRestaurants ;i++){
                 const randomIndex = Math.floor(Math.random() * maxNumber + 1)
-                randomRestaurants.push(totalRestaurants[randomIndex]);
+                fiveRestaurants.push(totalRestaurants[randomIndex]);
             }
 
-            console.log(randomRestaurants);
+            setRandomRestaurants(fiveRestaurants);
 
+            sendRestaurantDataToMap(randomRestaurants);
             
         } catch (error){
             console.log(error)
@@ -59,7 +62,7 @@ function Filter() {
 
     return (
         <div className= {show ? "filter--container" : "filter--container-hidden"}>
-            <h2 className="filter-header">Find a local restaurant to eat at!</h2>
+            <h2 className="filter-header">Find a local place to eat at!</h2>
                 <div className="filter-search-btn">
                     <button className="search-btn" onClick={() => listOfPlaces()}>Search</button>
                 </div>
@@ -68,36 +71,3 @@ function Filter() {
 }
 
 export default Filter
-
-{/* <form action="#">
-    <ul className="filter-options">
-        <li>
-            <p>Cuisine:</p>
-            <select name="cuisine">
-                <option value="italian">Italian</option>
-            </select>
-        </li>
-
-        <li>
-            <p>Distance(km):</p>
-            <select name="distance">
-                <option value="near">0-1</option>
-            </select>
-        </li>
-
-
-        <li style = {{paddingRight: "40px"}}>
-            <p>Price(£):</p>
-            <select name="price">
-                <option value="cheap">10-20</option>
-            </select>
-        </li>
-    </ul>
-    <div className="filter-search-btn">
-        <input 
-            onClick={listOfPlaces()}
-            type="submit" 
-            value="Search" 
-            className="search-btn"/>
-    </div>
-</form> */}

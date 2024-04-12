@@ -13,7 +13,7 @@ function NavBar() {
 
     return (
        <div className="navbar--container">
-            <h1 style={{color: 'white', marginLeft: "10px"}}>Restaurant Chooser</h1>
+            <h1 style={{color: 'white', marginLeft: "10px"}}>EasyEats</h1>
             <img 
                 onClick={() => openDropdown((prev) => !prev)}
                 src={DefaultPhoto} 

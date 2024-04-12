@@ -2,10 +2,18 @@ import '../index.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // import React, { useState } from 'react'
 import Map from 'react-map-gl'
+import FilterApp from './FilterApp'
 
 function InteractiveMap() {
 
+  const restaurantLocations = (data) => {
+    console.log(data);
+  }
+
   return (
+    <>
+    <FilterApp sendRestaurantDataToMap={restaurantLocations} />
+
     <Map
       mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
       initialViewState={{
@@ -16,6 +24,7 @@ function InteractiveMap() {
       style={{width: "100%", height: 632}}
       mapStyle="mapbox://styles/mapbox/dark-v11"
     />
+    </>
   );
 }
 
