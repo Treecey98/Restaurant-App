@@ -1,4 +1,4 @@
-import InteractiveMap from '../components/HomeMap'
+import Filter from '../components/FilterApp'
 import Footer from '../components/Footer'
 import NavBar from '../components/NavBar';
 
@@ -7,7 +7,7 @@ function HomePage() {
     return (
       <div>
         <NavBar></NavBar>
-        <InteractiveMap></InteractiveMap>
+        <Filter></Filter>
         <Footer></Footer>
       </div>
     );
