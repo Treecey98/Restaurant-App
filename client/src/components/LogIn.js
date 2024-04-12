@@ -2,6 +2,7 @@ import '../index.css'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Axios from 'axios'
+import LoginTitle from './LogInTitle'
 
 function LogIn() {
 
@@ -35,6 +36,9 @@ function LogIn() {
 
     return(
         <div>
+
+            <LoginTitle></LoginTitle>
+
             <div className="login-container">
                 <h2 className="login-title">Login</h2>
                 <div className="login-inputs">

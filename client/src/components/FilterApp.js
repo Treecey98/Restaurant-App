@@ -27,8 +27,6 @@ function Filter() {
 
     const URL = `https://wyre-data.p.rapidapi.com/restaurants/localauthority/${userAddressDetails.address2}`
 
-    // const [show, showContainer] = useState(true);
-
     const [randomRestaurants, setRandomRestaurants] = useState();
 
     const restaurantData = randomRestaurants;
@@ -67,11 +65,14 @@ function Filter() {
 
     return (
         <div>
-            <h2 className="filter-header">Find a local place to eat at!</h2>
-                <div className="filter-search-btn">
-                    <button className="search-btn" onClick={() => listOfPlaces()}>Search</button>
-                </div>
-
+            <div className="filter-container">
+                <h2 className="filter-header">Find a local place to eat at!</h2>
+                    <div className="filter-search-btn">
+                        <button className="search-btn" onClick={() => listOfPlaces()}>Search</button>
+                     </div>
+            </div>
+            
+            <div className="map-container">
                 <Map
                     mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
                     initialViewState={{
@@ -79,7 +80,7 @@ function Filter() {
                         latitude: 51.50,
                         zoom: 10
                 }}
-                style={{width: "100%", height: 442}}
+                style={{width: "100%", height: 446}}
                 mapStyle="mapbox://styles/mapbox/dark-v11"
                 > 
 
@@ -95,6 +96,7 @@ function Filter() {
                 })} 
 
                 </Map>
+            </div>
 
         </div>
     )
@@ -102,4 +104,3 @@ function Filter() {
 
 export default Filter
 
-// {show ? "filter--container" : "filter--container-hidden"}

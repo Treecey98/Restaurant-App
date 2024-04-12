@@ -69,16 +69,14 @@ ul select {
   margin: 10px;
 }
 
-.filter--container {
-  position: absolute;
-  left: 419px;
-  width: 40%;
-  margin: auto;
+.filter-container {
   background-color: #E7ECEF;
   border: 2.5px solid #80A1C1;
   border-radius: 10px;
-  margin-top: 10px;
-  z-index: 1
+  margin: auto;
+  margin-top: 10px!important;
+  margin-bottom: 10px!important;
+  width: 40%
 }
 
 .filter--container-hidden {
@@ -323,4 +321,15 @@ ul select {
 .map-markers {
   height: 25px;
   width: 25px;
+}
+
+.login-title-container {
+  background-color: #80A1C1;
+  padding: 30px;
+}
+
+.login-title-text {
+  text-align: center;
+  color: white;
+  margin: 0px;
 }
