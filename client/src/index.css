@@ -333,3 +333,7 @@ ul select {
   color: white;
   margin: 0px;
 }
+
+.map-marker-title {
+  text-align: center;
+}
