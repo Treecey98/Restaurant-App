@@ -1,6 +1,6 @@
 import '../index.css'
 import Axios from 'axios'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {Marker, Map, Popup} from 'react-map-gl'
@@ -14,12 +14,6 @@ const options = {
 };
 
 function Filter() {
-
-    const [viewport, setViewport] = useState({
-        longitude: -0.11,
-        latitude: 51.50,
-        zoom: 5
-    })
 
     let {userId} = useParams();
 
@@ -36,6 +30,7 @@ function Filter() {
     const [randomRestaurants, setRandomRestaurants] = useState();
 
     const restaurantData = randomRestaurants;
+    console.log(restaurantData)
 
     const listOfPlaces = async () => {
 
@@ -67,6 +62,12 @@ function Filter() {
         }
     }
 
+    const [viewport, setViewport] = useState({
+        longitude: -0.11,
+        latitude: 51.50,
+        zoom: 5
+    })
+
     const changeViewPoint = (updatedLocation) => {
         if(updatedLocation !== undefined){
             setViewport({
@@ -75,7 +76,10 @@ function Filter() {
                 zoom: 10,
             })
         }
+        console.log(viewport);
     }
+
+    const [hideButton, setHideButton] = useState(false);
 
     const [popUpOpen, setPopUpOpen] = useState({});
 
@@ -83,20 +87,31 @@ function Filter() {
         <div>
             <div className="filter-container">
                 <h2 className="filter-header">Find a local place to eat at!</h2>
-                    <div className="filter-search-btn">
-                        <button className="search-btn" onClick={() => {
-                            listOfPlaces()
-                            changeViewPoint(restaurantData)
-                            console.log(viewport)}}
-                        >Search</button>
-                     </div>
+                    <div className="filter-buttons">
+                        <div>
+                            <button className="search-btn" onClick={() => {
+                                listOfPlaces()
+                                }}
+                            >Search</button>
+                        </div>
+
+                        <div>
+                            <button className={`zoom-btn-${hideButton ? "hide" : "show" }`} onClick={() => {
+                                changeViewPoint(restaurantData)
+                                setHideButton(true)}}
+                                >Zoom</button>
+                        </div>
+                    </div>
+                    
             </div>
+
+            
             
             <div className="map-container">
                 <Map
                     mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
                     {...viewport}
-                    onLoad={() => changeViewPoint()}
+                    onIdle={() => changeViewPoint()}
                     style={{width: "100%", height: "80vh"}}
                     mapStyle="mapbox://styles/mapbox/dark-v11"
                 > 

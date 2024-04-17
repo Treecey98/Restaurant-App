@@ -79,23 +79,14 @@ ul select {
   width: 40%
 }
 
-.filter--container-hidden {
-  display: none;
-}
-
 .filter-header {
   text-align: center;
 }
 
-.filter-options {
+.filter-buttons {
   display: flex;
-  justify-content: space-between;
-}
-
-.filter-search-btn {
-  margin: auto;
-  width: 50%;
-  text-align: center
+  justify-content: center;
+  align-items: center;
 }
 
 .search-btn {
@@ -111,6 +102,22 @@ ul select {
 }
 
 .search-btn:hover {
+  cursor: pointer;
+}
+
+.zoom-btn-show {
+  margin-left: 15px;
+  font-size: 16px;
+  color: #80A1C1;
+  text-decoration: #80A1C1 underline;
+  border: none;
+}
+
+.zoom-btn-hide {
+  visibility: hidden;
+}
+
+.zoom-btn-show:hover {
   cursor: pointer;
 }
 
