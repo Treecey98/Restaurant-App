@@ -81,6 +81,7 @@ function Filter() {
     }
 
     const [hideButton, setHideButton] = useState(false);
+    const [disabledButton, setDisabledButton] = useState(true)
 
     const [popUpOpen, setPopUpOpen] = useState({});
 
@@ -92,6 +93,7 @@ function Filter() {
                         <div>
                             <button className="search-btn" onClick={() => {
                                 listOfPlaces()
+                                setDisabledButton(false)
                                 }}
                             >Search</button>
                         </div>
@@ -100,6 +102,7 @@ function Filter() {
                             <button className={`zoom-btn-${hideButton ? "hide" : "show" }`} onClick={() => {
                                 changeViewPoint(restaurantData)
                                 setHideButton(true)}}
+                                disabled={disabledButton}
                                 >Zoom</button>
                         </div>
                     </div>
