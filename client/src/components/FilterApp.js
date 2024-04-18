@@ -88,7 +88,7 @@ function Filter() {
     return (
         <div>
             <div className="filter-container">
-                <h2 className="filter-header">Find a local place to eat at!</h2>
+                <h2 className="filter-header">Find a local place to eat out!</h2>
                     <div className="filter-buttons">
                         <div>
                             <button className="search-btn" onClick={() => {
