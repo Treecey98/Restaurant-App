@@ -27,7 +27,7 @@ function Filter() {
 
     const URL = `https://wyre-data.p.rapidapi.com/restaurants/localauthority/${userAddressDetails.address2}`
 
-    const [randomRestaurants, setRandomRestaurants] = useState();
+    const [randomRestaurants, setRandomRestaurants] = useState([]);
 
     const restaurantData = randomRestaurants;
     console.log(restaurantData)
@@ -38,12 +38,13 @@ function Filter() {
             const totalRestaurants = [];
             const fiveRestaurants = [];
             const data = await Axios.get(URL, options)
-
+          
             data.data.forEach((element, index, array) => {
                 if (element.BusinessType === "Restaurant/Cafe/Canteen"){
                     totalRestaurants.push(element)
                 }
             })
+        
 
             const maxNumber = totalRestaurants.length;
 
@@ -116,7 +117,11 @@ function Filter() {
                     mapStyle="mapbox://styles/mapbox/dark-v11"
                 > 
 
-                {restaurantData?.map((data, index) => {
+                <h3 
+                className={`no-data-message-${restaurantData.length > 0 && restaurantData[0] === undefined ? "show" : "hide"}`}
+                >Council/borough is not correct, please update this in your profile.</h3>
+
+                {restaurantData[0] !== undefined && restaurantData?.map((data, index) => {
                     return <div key={data._id}>
                         <Marker
                             key={index}
