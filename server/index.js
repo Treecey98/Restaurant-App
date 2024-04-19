@@ -7,7 +7,7 @@ const saltRounds = 10
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const session = require ('express-session')
+const session = require ('cookie-session')
 
 const app = express();
 
