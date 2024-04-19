@@ -8,7 +8,7 @@ function DropDown({newPageCloseDropdown}) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/login").then((response) => {
+        Axios.get("https://easy-eats-api.onrender.com/login").then((response) => {
             console.log(response)
         })
     }, [])

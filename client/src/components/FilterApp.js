@@ -20,7 +20,7 @@ function Filter() {
     const[userAddressDetails, setAddressDetails] = useState([])
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
+        Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
             setAddressDetails(response.data[0])
         })
     }, []);

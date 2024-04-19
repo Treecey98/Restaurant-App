@@ -10,7 +10,7 @@ function SignUp() {
     const { register, handleSubmit }= useForm();
 
     const onSubmit = (data) => {
-        Axios.post("http://localhost:3001/register", (data))
+        Axios.post("https://easy-eats-api.onrender.com/register", (data))
 
         navigate('/')
     }
