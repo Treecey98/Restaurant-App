@@ -114,7 +114,7 @@ function Filter() {
             <div className="map-container">
                 <Map
                     mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
-                    initialViewState={viewport}
+                    {...viewport}
                     onIdle={() => changeViewPoint()}
                     style={{width: "100%", height: "80vh"}}
                     mapStyle="mapbox://styles/mapbox/dark-v11"
