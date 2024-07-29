@@ -10,7 +10,8 @@ const options = {
   headers: {
     'X-RapidAPI-Key': '6a718b9d04msh9b34d559ba5ee03p16eec7jsnf3727a08cd12',
     'X-RapidAPI-Host': 'wyre-data.p.rapidapi.com'
-  }
+  },
+  withCredentials: false,
 };
 
 function Filter() {
