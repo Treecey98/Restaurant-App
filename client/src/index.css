@@ -179,7 +179,7 @@ ul select {
 
 @media screen and (max-width: 400px) {
   
-  .user-cotainer {
+  .user-container {
     width: 95%;
     padding-right: 10px;
     height: 650px;
@@ -232,7 +232,7 @@ ul select {
   
   .user-details input {
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-left: 0px;
   }
   
 }
