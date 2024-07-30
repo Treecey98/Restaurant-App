@@ -79,6 +79,14 @@ ul select {
   width: 40%
 }
 
+@media screen and (max-width: 400px) {
+  
+  .filter-container {
+    width: 60%;
+  }
+  
+}
+
 .filter-header {
   text-align: center;
 }
@@ -169,6 +177,16 @@ ul select {
   height: 550px;
 }
 
+@media screen and (max-width: 400px) {
+  
+  .user-cotainer {
+    width: 95%;
+    padding-right: 10px;
+    height: 650px;
+  }
+  
+}
+
 .user-profile-title {
   text-align: center;
 }
@@ -210,6 +228,15 @@ ul select {
   margin-left: 20px;
 }
 
+@media screen and (max-width: 400px) {
+  
+  .user-details input {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+  
+}
+
 .signup-container {
   width: 40%;
   margin: auto;
@@ -217,6 +244,14 @@ ul select {
   border: solid 1px #80A1C1;
   border-radius: 10px;
   padding: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  
+  .signup-container {
+    width: 80%;
+  }
+  
 }
 
 .signup-title {
@@ -254,6 +289,14 @@ ul select {
   height: 50px;
 }
 
+@media screen and (max-width: 400px) {
+  
+  .signup-btn {
+    align-self: flex-end;
+  }
+  
+}
+
 .signup-btn:hover {
   cursor: pointer;
 }
@@ -270,6 +313,14 @@ ul select {
   border: solid 1px #80A1C1;
   border-radius: 10px;
   padding: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  
+  .login-container {
+    width: 80%;
+  }
+  
 }
 
 .login-title {
