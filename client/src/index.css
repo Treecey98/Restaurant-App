@@ -292,7 +292,7 @@ ul select {
 @media screen and (max-width: 400px) {
   
   .signup-btn {
-    align-self: flex-end;
+    align-self: auto;
   }
   
 }
