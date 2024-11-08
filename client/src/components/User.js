@@ -19,7 +19,7 @@ function User() {
     let[fullAddress, setFullAddress] = useState({})
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
+        Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
             setName(response.data[0].name)
             setEmail(response.data[0].email)
             setAddress1(response.data[0].address1)
@@ -33,7 +33,7 @@ function User() {
     }, []);
 
     const updateUserDetails = () => {
-        Axios.put(`http://localhost:3001/updateUserDetails/${userId}`, {
+        Axios.put(`https://easy-eats-api.onrender.com/updateUserDetails/${userId}`, {
             fullname: fullname,
             email: email,
             address1: address1,

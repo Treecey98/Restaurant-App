@@ -16,7 +16,7 @@ function LogIn() {
     Axios.defaults.withCredentials = true
 
     const login = () => {
-        Axios.post("http://localhost:3001/login", {
+        Axios.post("https://easy-eats-api.onrender.com/login", {
             email: email,
             password: password,
         }).then((response) => {
@@ -29,7 +29,7 @@ function LogIn() {
     }
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/login").then((response) => {
+        Axios.get("https://easy-eats-api.onrender.com/login").then((response) => {
             console.log(response);
         })
     }, [])
