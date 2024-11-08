@@ -407,3 +407,73 @@ ul select {
 .no-data-message-hide {
   visibility: hidden;
 }
+
+.filter-options {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-option-cuisine {
+  margin-right: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.filter-option-price {
+  margin-left: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.filter-select-options-btn {
+  background-color: #E7ECEF;
+  border: solid #80A1C1 0.5px;
+  border-radius: 3px;
+  padding: 6px;
+  width: 150px;
+  height: 25px;
+}
+
+.filter-select-options-btn:hover {
+  cursor: pointer;
+}
+
+.dropdown-options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
+  width: 150px;
+}
+
+.dropdown-option{ 
+  border: solid #80A1C1 0.5px;
+  padding: 5px;
+}
+
+.dropdown-option:hover {
+  cursor: pointer;
+}
+
+.dropdown-option:last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+
+.select-option-title {
+  text-align: center;
+  margin: 0 0 5px 0;
+}
+
+.clear-btn {
+  position: absolute;
+  color: #80A1C1;
+  font-weight: bold;
+}
+
+.clear-btn:hover {
+  cursor: pointer;
+}

@@ -1,18 +1,13 @@
 import '../index.css'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import {Marker, Map, Popup} from 'react-map-gl'
+import { Marker, Map, Popup } from 'react-map-gl'
 import MarkerImage from '../mapmarker.png'
-
-const options = {
-  headers: {
-    'X-RapidAPI-Key': '6a718b9d04msh9b34d559ba5ee03p16eec7jsnf3727a08cd12',
-    'X-RapidAPI-Host': 'wyre-data.p.rapidapi.com'
-  },
-  withCredentials: false,
-};
+import { fetchLocationDataByUserTown, fetchRestaurantsByLocationId, fetchRestaurantDetailsById } from '../model/TripAdvisorAPI'
+import { CountryValidation } from '../util/location'
+import ClearIcon from '@mui/icons-material/Clear';
 
 function Filter() {
 
@@ -21,47 +16,128 @@ function Filter() {
     const[userAddressDetails, setAddressDetails] = useState([])
 
     useEffect(() => {
-        Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
+        Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
             setAddressDetails(response.data[0])
         })
     }, []);
 
-    const URL = `https://wyre-data.p.rapidapi.com/restaurants/localauthority/${userAddressDetails.address2}`
+    const [incorrectTown, setIncorrectTown] = useState(false);
 
-    const [randomRestaurants, setRandomRestaurants] = useState([]);
+    const [specificRestaurant, setRestaurant] = useState();
+    const [restaurantURL, setRestaurantURL] = useState();
+    const [vegetarianFriendly, setVegetarianFriendly] = useState("No");
 
-    const restaurantData = randomRestaurants;
-    console.log(restaurantData)
+    const [chosenCuisine, setChosenCuisine] = useState("");
+    const [chosenPrice, setChosenPrice] = useState("");
+        
+    const restaurantData = specificRestaurant;
+    const restaurantWebsite = restaurantURL;
 
-    const listOfPlaces = async () => {
+    const restaurantCall = async () => {
 
         try {
-            const totalRestaurants = [];
-            const fiveRestaurants = [];
-            const data = await Axios.get(URL, options)
-          
-            data.data.forEach((element, index, array) => {
-                if (element.BusinessType === "Restaurant/Cafe/Canteen"){
-                    totalRestaurants.push(element)
-                }
+            const locations = await fetchLocationDataByUserTown(userAddressDetails.address2)
+            const differentLocations = {};
+            const userCountry = userAddressDetails.country
+
+            locations.data.data.forEach((element, index, array) => {
+                differentLocations[element.localizedAdditionalNames.longOnlyHierarchy] = element.locationId;
             })
-        
 
-            const maxNumber = totalRestaurants.length;
+            let locationId = CountryValidation(differentLocations, userCountry);
 
-            const numberOfRestaurants = 5;
-            var i;
+            let page = 1
 
-            for(i=0; i<numberOfRestaurants ;i++){
-                const randomIndex = Math.floor(Math.random() * maxNumber + 1)
-                fiveRestaurants.push(totalRestaurants[randomIndex]);
+            const restaurantData = await fetchRestaurantsByLocationId(locationId, page)
+
+            const totalRestaurants = [];
+            const filteredRestaurants = [];
+            const restaurant = [];
+
+            restaurantData.data.data.data.forEach((element, index, array) => {
+                totalRestaurants.push(element);
+            })
+
+            const numberOfRestaurantPages = restaurantData.data.data.totalPages
+
+            if(restaurantData.data.data.totalPages > 1){
+                for(var i=1; i<numberOfRestaurantPages ;i++){
+                   
+                    page++
+
+                    const restaurantsData = await fetchRestaurantsByLocationId(locationId, page)
+                    restaurantsData.data.data.data.forEach((element, index, array) => {
+                        totalRestaurants.push(element);
+                    })
+                }
             }
 
-            setRandomRestaurants(fiveRestaurants);
+            console.log(totalRestaurants);
+
+            let price
+
+            if(chosenPrice === "Cheap") {
+                price = "$"
+            } else if(chosenPrice === "Reasonably priced") {
+                price = "$$ - $$$"
+            } else if(chosenPrice === "Expensive") {
+                price = "$$$$"
+            } else {
+                price = ""
+            }
+
+            totalRestaurants.forEach((data) => {
+                if(data.establishmentTypeAndCuisineTags.includes(chosenCuisine) && data.priceTag === price){
+                    filteredRestaurants.push(data);
+                } else if(chosenCuisine === "" && data.priceTag === price){
+                    filteredRestaurants.push(data);
+                } else if(data.establishmentTypeAndCuisineTags.includes(chosenCuisine) && price === "")
+                    filteredRestaurants.push(data);
+            })
+
+            const restaurantCount = totalRestaurants.length;
+            const filteredRestaurantCount = filteredRestaurants.length;
+
+            const maxRestaurantsToDisplay = 1;
+
+            console.log(filteredRestaurants);
+            console.log(filteredRestaurantCount);
+
+            if(filteredRestaurantCount === 0){
+                for(var i=0; i<maxRestaurantsToDisplay ;i++){
+                    const randomIndex = Math.floor(Math.random() * (restaurantCount - 0) + 0)
+                    restaurant.push(totalRestaurants[randomIndex]);
+                }
+            } else {
+                for(var j=0; j<maxRestaurantsToDisplay ;j++){
+                    const randomIndex = Math.floor(Math.random() * (filteredRestaurantCount - 0) + 0)
+                    restaurant.push(filteredRestaurants[randomIndex]);
+                }
+            }
+
+            const data = await fetchRestaurantDetailsById(restaurant[0].restaurantsId);
+            setRestaurant(data.data.data);
+
+            console.log(data.data.data);
+
+            data.data.data.about.content.map((data, index) => {
+                if(data.__typename === "AppPresentation_ContactSubsection"){
+                    data.contactLinks.map((data, index) => {
+                        if(data.link.trackingContext === "server_website"){
+                            setRestaurantURL(data.link.externalUrl);
+                        } 
+                    })
+                } 
+            })
+
+            if(data.data.data.overview.accessibleTags.text.includes("Vegetarian Friendly")){
+                setVegetarianFriendly("Yes");
+            }
 
         } catch (error){
-            console.log(error)
+            setIncorrectTown(true)
         }
+
     }
 
     const [viewport, setViewport] = useState({
@@ -73,103 +149,193 @@ function Filter() {
     const changeViewPoint = (updatedLocation) => {
         if(updatedLocation !== undefined){
             setViewport({
-                longitude: updatedLocation[0].Geocode_Longitude,
-                latitude: updatedLocation[0].Geocode_Latitude,
+                longitude: updatedLocation.location.address.geoPoint.longitude,
+                latitude: updatedLocation.location.address.geoPoint.latitude,
                 zoom: 10,
             })
         }
-        console.log(viewport);
     }
 
-    const [hideButton, setHideButton] = useState(false);
-    const [disabledButton, setDisabledButton] = useState(true)
+    const [popUpOpen, setPopUpOpen] = useState(false);
 
-    const [popUpOpen, setPopUpOpen] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false)
+
+    const cuisines = [
+        "British", 
+        "Asian", 
+        "European",
+        "Italian",
+        "Indian",
+        "Turkish",
+        "Chinese",
+        "Japanese",
+        "French",
+        "Spanish",
+        "Mexican",
+        "Greek",
+        "Vietnamese",
+        "African",
+        "South American"
+    ];
+
+    const prices = ["Cheap", "Reasonably priced", "Expensive"]; 
+
+    const clearCuisineDropDown = () => {
+        if(chosenCuisine !== ""){
+            setChosenCuisine("")
+        }
+    }
+
+    const clearPriceDropDown = () => {
+        if(chosenPrice !== ""){
+            setChosenPrice("")
+        }
+    }
+
+    const dropdownList = useRef(null)
+    const dropdownList2 = useRef(null)
+
+    const closeCuisineDropdown = (e)=>{
+        if(isOpen && !dropdownList.current?.contains(e.target)){
+          setIsOpen(false)
+        }
+    }
+
+    const closePriceDropdown = (e)=>{
+        if(isOpen2 && !dropdownList2.current?.contains(e.target)){
+          setIsOpen2(false)
+        }
+    }
+
+    document.addEventListener('mousedown',closeCuisineDropdown)
+    document.addEventListener('mousedown',closePriceDropdown)
 
     return (
         <div>
             <div className="filter-container">
                 <h2 className="filter-header">Find a local place to eat out!</h2>
+
+                    <div className="filter-options">
+                        <div className="filter-option-cuisine">
+                            <h3>Cuisine</h3>
+
+                                <div ref={dropdownList}>
+                                    <h4 className="select-option-title">Select an option</h4>
+                                    <button onClick={() => setIsOpen(true)} className="filter-select-options-btn">{chosenCuisine}</button>
+
+                                    <ClearIcon className="clear-btn" onClick={() => clearCuisineDropDown()}></ClearIcon>
+
+                                    {isOpen && (
+                                        <div className="dropdown-options">
+                                            {cuisines.map(option => (
+                                                <button 
+                                                    key={option} 
+                                                    onClick={() => {
+                                                        setChosenCuisine(option)
+                                                        setIsOpen(false)}} 
+                                                    className="dropdown-option">
+                                                    {option}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                        </div>
+
+                        <div className="filter-option-price">
+                            <h3>Price</h3>
+
+                                <div ref={dropdownList2}>  
+                                    <h4 className="select-option-title">Select an option</h4>
+                                    <button onClick={() => setIsOpen2(true)} className="filter-select-options-btn">{chosenPrice}</button>
+
+                                    <ClearIcon className="clear-btn" onClick={() => clearPriceDropDown()}></ClearIcon>
+
+                                    {isOpen2 && (
+                                        <div className="dropdown-options">
+                                            {prices.map(option => (
+                                                <button 
+                                                    key={option} 
+                                                    onClick={() => {
+                                                        setChosenPrice(option)
+                                                        setIsOpen2(false)
+                                                    }} 
+                                                    className="dropdown-option">
+                                                    {option}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                        </div>
+
+                    </div>
+
                     <div className="filter-buttons">
                         <div>
                             <button className="search-btn" onClick={() => {
-                                listOfPlaces()
-                                setDisabledButton(false)
+                                restaurantCall();
                                 }}
                             >Search</button>
                         </div>
-
-                        <div>
-                            <button className={`zoom-btn-${hideButton ? "hide" : "show" }`} onClick={() => {
-                                changeViewPoint(restaurantData)
-                                setHideButton(true)}}
-                                disabled={disabledButton}
-                                >Zoom</button>
-                        </div>
                     </div>
-                    
             </div>
 
-            
-            
             <div className="map-container">
                 <Map
                     mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
                     {...viewport}
-                    onIdle={() => changeViewPoint()}
                     style={{width: "100%", height: "80vh"}}
                     mapStyle="mapbox://styles/mapbox/dark-v11"
-                > 
+                >
 
-                <h3 
-                className={`no-data-message-${restaurantData.length > 0 && restaurantData[0] === undefined ? "show" : "hide"}`}
-                >Council/borough is not correct, please update this in your profile.</h3>
+                 <div className={`no-data-message-${incorrectTown ? "show" : "hide"}`}>
+                    <h4>Please update your town in your profile</h4>
+                </div>
 
-                {restaurantData[0] !== undefined && restaurantData?.map((data, index) => {
-                    return <div key={data._id}>
+                       { specificRestaurant !== undefined && restaurantURL !== undefined && ( 
+                       
                         <Marker
-                            key={index}
-                            longitude={data.Geocode_Longitude}
-                            latitude={data.Geocode_Latitude}
+                            longitude={restaurantData.location.address.geoPoint.longitude}
+                            latitude={restaurantData.location.address.geoPoint.latitude}
                             onClick={(e) => {
                                 e.originalEvent.stopPropagation();
-                                setPopUpOpen({ [data._id]: true });}}
+                                changeViewPoint(restaurantData)
+                                setPopUpOpen(true);}}
                             anchor = "bottom"
                             >
                             <img className="map-markers" src={MarkerImage} alt="Marker" />
-                        </Marker>
+                        </Marker> 
+                        
+                        )}
 
-                        {popUpOpen[data._id] && (
+                        {popUpOpen && (
                         
                             <Popup
-                                key={index}
-                                longitude={data.Geocode_Longitude}
-                                latitude={data.Geocode_Latitude}
+                                longitude={restaurantData.location.address.geoPoint.longitude}
+                                latitude={restaurantData.location.address.geoPoint.latitude}
                                 onClose={() => setPopUpOpen(false)}
                                 closeButton={true}
                                 offsetLeft={10}
                             >
                                 <span>
-                                    <h4 className="map-marker-title">{data.BusinessName}</h4>
+                                    <h4 className="map-marker-title">{restaurantData.overview.name}</h4>
                                     
                                     <h4>Address</h4>
-                                    <p>{data.AddressLine2}</p>
-                                    <p>{data.AddressLine3}</p>
-                                    <p>{data.PostCode}</p>
-                                    
+                                    <p>{restaurantData.location.address.address}</p>
+                                    <p>Website: <a href={restaurantWebsite} target="_blank">{restaurantData.overview.name}</a></p>
+                                    <p>Vegetarian Friendly?: {vegetarianFriendly}</p>
+                            
                                 </span>
-                            </Popup>
+                            </Popup> 
                         
-                        )}
-                    </div>
-
-                })} 
-
-                </Map>
+                        )} 
+                    </Map>
             </div>
 
-        </div>
-    )
-}
+        </div>  
+
+)}
 
 export default Filter

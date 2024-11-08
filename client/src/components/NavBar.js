@@ -1,6 +1,6 @@
 import '../index.css'
 import DefaultPhoto from '../stockphoto.jpg'
-import DropDown from './DropDown'
+import DropDown from './NavBarDropDown'
 import { useState } from 'react'
 
 function NavBar() {

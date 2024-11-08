@@ -10,7 +10,7 @@ function SignUp() {
     const { register, handleSubmit }= useForm();
 
     const onSubmit = (data) => {
-        Axios.post("https://easy-eats-api.onrender.com/register", (data))
+        Axios.post("http://localhost:3001/register", (data))
 
         navigate('/')
     }
@@ -29,14 +29,15 @@ function SignUp() {
                         <label>Name*</label> 
                         <input {...register("fullname", { required: true})} />
                         <label>Email*</label>
-                        <input {...register("email", { required: true})} />
+                        <input {...register("email", { required: true})}/>
                         <label>Password*</label>
-                        <input {...register("password", { required: true})} />
+                        <input {...register("password", { required: true})} type="password"/>
                         <label>First line of address*</label>
                         <input {...register("address1", { required: true})} />
-                        <label>District council*</label>
-                        <p className="signup-warning">If living in London please put your borough</p>
+                        <label>Town*</label>
                         <input {...register("address2", { required: true})} />
+                        <label>Country*</label>
+                        <input {...register("country", { required: true})} />
                         <label>Postcode*</label>
                         <input {...register("postcode", { required: true})} />
 
