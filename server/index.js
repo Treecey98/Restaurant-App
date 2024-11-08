@@ -55,7 +55,7 @@ app.post('/register', (req, res) => {
 
     bcrypt.hash(password,saltRounds, (err, hash) => {
 
-        db.query("INSERT INTO Users (name, email, password, address1, address2, postcode, country, created_at) VALUES (?,?,?,?,?,?,?)", 
+        db.query("INSERT INTO Users (name, email, password, address1, address2, postcode, country, created_at) VALUES (?,?,?,?,?,?,?,?)", 
         [fullname, email, hash, address1, address2, postcode, country, date],
         (err, result) => {
             console.log(err)
