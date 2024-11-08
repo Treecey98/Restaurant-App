@@ -50,12 +50,13 @@ app.post('/register', (req, res) => {
     const address1 = req.body.address1
     const address2 = req.body.address2
     const postcode = req.body.postcode
+    const country = req.body.country
     const date = new Date()
 
     bcrypt.hash(password,saltRounds, (err, hash) => {
 
-        db.query("INSERT INTO Users (name, email, password, address1, address2, postcode, created_at) VALUES (?,?,?,?,?,?,?)", 
-        [fullname, email, hash, address1, address2, postcode, date],
+        db.query("INSERT INTO Users (name, email, password, address1, address2, postcode, country, created_at) VALUES (?,?,?,?,?,?,?)", 
+        [fullname, email, hash, address1, address2, postcode, country, date],
         (err, result) => {
             console.log(err)
         }
