@@ -82,7 +82,7 @@ ul select {
 @media screen and (max-width: 400px) {
   
   .filter-container {
-    width: 60%;
+    width: 100%;
   }
   
 }
