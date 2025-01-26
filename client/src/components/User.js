@@ -2,6 +2,8 @@ import '../index.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import Axios from 'axios';
+import { Stack, List, ListItem, IconButton, Modal, Box, Button} from '@mui/material';
+import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 import EditIcon from '@mui/icons-material/Edit';
 
 function User() {
@@ -15,8 +17,13 @@ function User() {
     let [address1, setAddress1] = useState('')
     let [address2, setAddress2] = useState('')
     let [postcode, setPostcode] = useState('')
+    let [country, setCountry] = useState('')
 
     let[fullAddress, setFullAddress] = useState({})
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
@@ -25,102 +32,109 @@ function User() {
             setAddress1(response.data[0].address1)
             setAddress2(response.data[0].address2)
             setPostcode(response.data[0].postcode)
+            setCountry(response.data[0].country)
 
             setFullAddress({
-                address: `${response.data[0].address1}, ${response.data[0].address2}, ${response.data[0].postcode}`
+                address: `${response.data[0].address1}, ${response.data[0].address2}, ${response.data[0].postcode}, ${response.data[0].country}`
             })
         })
-    }, []);
+    }, [userId, open]);
 
-    const updateUserDetails = () => {
-        Axios.put(`https://easy-eats-api.onrender.com/updateUserDetails/${userId}`, {
-            fullname: fullname,
-            email: email,
-            address1: address1,
-            address2: address2,
-            postcode: postcode,
-        })
+    const updateUserDetails = (data) => {
+        
+        Axios.put(`https://easy-eats-api.onrender.com/updateUserDetails/${userId}`, (data))
+
+        handleClose()
     }
-    
-    let [disabledStatus, setDisabled] = useState(true);
-    let [disabledStatus2, setDisabled2] = useState(true);
-    let [disabledStatus3, setDisabled3] = useState(true);
-    let [disabledStatus4, setDisabled4] = useState(true);
-    let [disabledStatus5, setDisabled5] = useState(true);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #0096FF',
+        borderRadius:'5px',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    const backButton = () => {
+        navigate(`/home/${userId}`)
+        sessionStorage.clear()
+    }
 
     return (
         <>
            <div className="arrow-container">
                 <p className="left-arrow"></p>
-                <button onClick={()=>navigate(`/home/${userId}`)} className="back-button">Back</button>
+                <button onClick={()=> backButton()} className="back-button">Back</button>
             </div> 
 
-            <div className="user-container">
-                <h1 className="user-profile-title">{fullname}'s Profile</h1>
-                
+
                 <div className="user-details-container">
-                    <div className="e-disabled">
-                        
-                        <ul>
-                            <div className='user-details'>
-                                <li>Name: <input 
-                                    type="text" 
-                                    value={fullname} 
-                                    onChange={e => setName(e.target.value) }
-                                    disabled = {disabledStatus}/>
-                                </li>
-                                <EditIcon style={{ fontSize: 25, color: "#80A1C1"}} onClick={() => setDisabled(!disabledStatus)}>Filled</EditIcon>
-                            </div>
+                    <div className="user-profile-title-items">
+                        <h1>{fullname}'s Profile</h1>
+                        <IconButton disableRipple = "false">
+                            <EditIcon 
+                                fontSize="medium" 
+                                style={{marginTop: 10, color: "#0096FF"}}
+                                onClick={handleOpen}
+                            />
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <Box sx={style}>
 
-                            <div className='user-details'>
-                                <li>Email: <input 
-                                    type="text" 
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value) }
-                                    disabled={disabledStatus2} /></li>
-                                <EditIcon style={{ fontSize: 25, color: "#80A1C1"}} onClick={() => setDisabled2(!disabledStatus2)}>Filled</EditIcon>
-                            </div>
-                            
-                            <div className='user-details'>
-                                <li>First line of address: <input 
-                                    type="text" 
-                                    value={address1} 
-                                    onChange={e => setAddress1(e.target.value) }
-                                    disabled={disabledStatus3} /></li>
-                                <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled3(!disabledStatus3)}>Filled</EditIcon>
-                            </div> 
+                                    <h3 className="edit-modal-title">Edit your profile</h3>
 
-                            <div className='user-details'>
-                                <li>Town: <input 
-                                    type="text" 
-                                    value={address2} 
-                                    onChange={e => setAddress2(e.target.value) }
-                                    disabled={disabledStatus4} /></li>
-                                <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled4(!disabledStatus4)}>Filled</EditIcon>
-                            </div> 
+                                    <FormContainer
+                                        defaultValues={
+                                            {
+                                                fullname: fullname,
+                                                email: email,
+                                                address1: address1,
+                                                address2: address2,  
+                                                postcode: postcode,
+                                                country: country
+                                            }
+                                        }
 
-                            <div className='user-details'>
-                                <li>Postcode: <input 
-                                    type="text" 
-                                    value={postcode} 
-                                    onChange={e => setPostcode(e.target.value) }
-                                    disabled={disabledStatus5} /></li>
-                                <EditIcon style={{ fontSize: 25, color: "80A1C1"}} onClick={() => setDisabled5(!disabledStatus5)}>Filled</EditIcon>
-                            </div> 
+                                        onSuccess={data => updateUserDetails(data)}
+                                    >  
+                                        <Stack spacing={2}>
+                                            <TextFieldElement name="fullname" label="Name"/>
+                                            <TextFieldElement name="email" label="Email"/>
+                                            <TextFieldElement name="address1" label="First line of address"/>
+                                            <TextFieldElement name="address2" label="Town"/>
+                                            <TextFieldElement name="postcode" label="Postcode"/>
+                                            <TextFieldElement name="country" label="Country"/>
 
-                            <div className='user-details'>
-                                <li>Full address: <input 
-                                    type="text" 
-                                    value={fullAddress.address}
-                                    disabled={true}/></li>
-                            </div> 
-                            
-                        </ul> 
-                    
+                                            <Button type={'submit'}>
+                                                Submit
+                                            </Button>
+
+                                        </Stack>
+                                    </FormContainer>
+                                </Box>
+                            </Modal>
+                        </IconButton>
                     </div>
-                    <button className="user-profile-edit-btn" onClick={() => updateUserDetails()}>Save details</button>
+                        <List className="user-details">
+                            <Stack spacing={3}>
+                                <ListItem><span>Name:</span>{fullname}</ListItem>
+                                <ListItem><span>Email:</span>{email}</ListItem>
+                                <ListItem><span>First line of address:</span>{address1}</ListItem>
+                                <ListItem><span>Town:</span>{address2}</ListItem>
+                                <ListItem><span>Postcode:</span>{postcode}</ListItem>
+                                <ListItem><span>Country:</span>{country}</ListItem>
+                                <ListItem><span>Full address:</span>{fullAddress.address}</ListItem>
+                            </Stack>
+                        </List>
                 </div>
-            </div>
+            
             
         </>
     )

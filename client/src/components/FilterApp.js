@@ -1,13 +1,14 @@
 import '../index.css'
 import Axios from 'axios'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { Marker, Map, Popup } from 'react-map-gl'
-import MarkerImage from '../mapmarker.png'
+import { Marker, Map, Popup, NavigationControl } from 'react-map-gl'
+import MarkerImage from '../map-marker-2-512.png'
 import { fetchLocationDataByUserTown, fetchRestaurantsByLocationId, fetchRestaurantDetailsById } from '../model/TripAdvisorAPI'
 import { CountryValidation } from '../util/location'
-import ClearIcon from '@mui/icons-material/Clear';
+import { FormControl, Box, Stack, Autocomplete, TextField } from '@mui/material';
+import * as Constants from '../constants/constant';
 
 function Filter() {
 
@@ -21,7 +22,18 @@ function Filter() {
         })
     }, []);
 
+    const changeViewPoint = (updatedLocation) => {
+        if(updatedLocation !== undefined){
+            setViewport({
+                longitude: updatedLocation.location.address.geoPoint.longitude,
+                latitude: updatedLocation.location.address.geoPoint.latitude,
+                zoom: 12,
+            })
+        }
+    }
+
     const [incorrectTown, setIncorrectTown] = useState(false);
+    const [incorrectFilters, setIncorrectFilters] = useState(false);
 
     const [specificRestaurant, setRestaurant] = useState();
     const [restaurantURL, setRestaurantURL] = useState();
@@ -29,11 +41,18 @@ function Filter() {
 
     const [chosenCuisine, setChosenCuisine] = useState("");
     const [chosenPrice, setChosenPrice] = useState("");
+
+    const [viewport, setViewport] = useState(Constants.originalViewOptions);
+
+    const [popUpOpen, setPopUpOpen] = useState(false);
         
     const restaurantData = specificRestaurant;
     const restaurantWebsite = restaurantURL;
 
-    const restaurantCall = async () => {
+    const initialRestaurantCall = async () => {
+
+        setIncorrectTown(false);
+        setIncorrectFilters(false);
 
         try {
             const locations = await fetchLocationDataByUserTown(userAddressDetails.address2)
@@ -45,34 +64,11 @@ function Filter() {
             })
 
             let locationId = CountryValidation(differentLocations, userCountry);
+            if (locationId === undefined ) throw new Error("Incorrect town");
 
+            window.sessionStorage.setItem("locationId", locationId);
+            
             let page = 1
-
-            const restaurantData = await fetchRestaurantsByLocationId(locationId, page)
-
-            const totalRestaurants = [];
-            const filteredRestaurants = [];
-            const restaurant = [];
-
-            restaurantData.data.data.data.forEach((element, index, array) => {
-                totalRestaurants.push(element);
-            })
-
-            const numberOfRestaurantPages = restaurantData.data.data.totalPages
-
-            if(restaurantData.data.data.totalPages > 1){
-                for(var i=1; i<numberOfRestaurantPages ;i++){
-                   
-                    page++
-
-                    const restaurantsData = await fetchRestaurantsByLocationId(locationId, page)
-                    restaurantsData.data.data.data.forEach((element, index, array) => {
-                        totalRestaurants.push(element);
-                    })
-                }
-            }
-
-            console.log(totalRestaurants);
 
             let price
 
@@ -86,39 +82,60 @@ function Filter() {
                 price = ""
             }
 
-            totalRestaurants.forEach((data) => {
-                if(data.establishmentTypeAndCuisineTags.includes(chosenCuisine) && data.priceTag === price){
-                    filteredRestaurants.push(data);
-                } else if(chosenCuisine === "" && data.priceTag === price){
-                    filteredRestaurants.push(data);
-                } else if(data.establishmentTypeAndCuisineTags.includes(chosenCuisine) && price === "")
-                    filteredRestaurants.push(data);
-            })
+            const restaurantData = await fetchRestaurantsByLocationId(locationId, page)
+            window.sessionStorage.setItem("Page", page);
 
-            const restaurantCount = totalRestaurants.length;
+            const filteredRestaurants = [];
+            const unFilteredRestaurants = [];
+            const restaurant = [];
+
+            const numberOfRestaurantPages = restaurantData.data.data.totalPages
+
+            function filteringRestaurantData(data) {
+                data.forEach((element, index, array) => {
+                    if(element.establishmentTypeAndCuisineTags.includes(chosenCuisine) && element.priceTag === price){
+                        filteredRestaurants.push(element);
+                    } else if(chosenCuisine === "" && element.priceTag === price){
+                        filteredRestaurants.push(element);
+                    } else if(element.establishmentTypeAndCuisineTags.includes(chosenCuisine) && price === ""){
+                        filteredRestaurants.push(element);
+                    } else if(chosenCuisine === "" && price === ""){
+                        unFilteredRestaurants.push(element);
+                    }
+                })
+            }
+
+            filteringRestaurantData(restaurantData.data.data.data)
+
             const filteredRestaurantCount = filteredRestaurants.length;
+            const nonFilteredRestaurantCount = unFilteredRestaurants.length;
 
-            const maxRestaurantsToDisplay = 1;
+            if(filteredRestaurantCount === 0 && (chosenCuisine !== "" || chosenPrice !== "")){
+                
+                while (filteredRestaurants.length === 0) {
 
-            console.log(filteredRestaurants);
-            console.log(filteredRestaurantCount);
+                    page++
 
-            if(filteredRestaurantCount === 0){
-                for(var i=0; i<maxRestaurantsToDisplay ;i++){
-                    const randomIndex = Math.floor(Math.random() * (restaurantCount - 0) + 0)
-                    restaurant.push(totalRestaurants[randomIndex]);
+                    if (page > numberOfRestaurantPages || page === 21) break;
+
+                    const restaurantData2 = await fetchRestaurantsByLocationId(locationId, page)
+                    filteringRestaurantData(restaurantData2.data.data.data);
                 }
-            } else {
-                for(var j=0; j<maxRestaurantsToDisplay ;j++){
+
+                window.sessionStorage.setItem("Page", page);
+
+                restaurant.push(filteredRestaurants[0]);
+
+            } else if(filteredRestaurantCount !== 0){
                     const randomIndex = Math.floor(Math.random() * (filteredRestaurantCount - 0) + 0)
                     restaurant.push(filteredRestaurants[randomIndex]);
-                }
+            } else {
+                    const randomIndex = Math.floor(Math.random() * (nonFilteredRestaurantCount - 0) + 0)
+                    restaurant.push(unFilteredRestaurants[randomIndex]);
             }
 
             const data = await fetchRestaurantDetailsById(restaurant[0].restaurantsId);
             setRestaurant(data.data.data);
-
-            console.log(data.data.data);
 
             data.data.data.about.content.map((data, index) => {
                 if(data.__typename === "AppPresentation_ContactSubsection"){
@@ -130,152 +147,177 @@ function Filter() {
                 } 
             })
 
-            if(data.data.data.overview.accessibleTags.text.includes("Vegetarian Friendly")){
+            const vegetarianString = data.data.data.overview.accessibleTags.text;
+            let lowerCaseVegetarianString = vegetarianString.toLowerCase()
+            
+            if(lowerCaseVegetarianString.includes('vegetarian friendly')){
                 setVegetarianFriendly("Yes");
             }
 
-        } catch (error){
-            setIncorrectTown(true)
-        }
+            changeViewPoint(data.data.data);
+            setPopUpOpen(true);
+
+        } catch (e){
+            if (e.message === "Incorrect town"){
+                setIncorrectTown(true);
+            } else {
+                setIncorrectFilters(true);
+            }
+        } 
 
     }
 
-    const [viewport, setViewport] = useState({
-        longitude: -0.11,
-        latitude: 51.50,
-        zoom: 5
-    })
+    const locationId = window.sessionStorage.getItem("locationId");
+    const page = Number(window.sessionStorage.getItem("Page"));
 
-    const changeViewPoint = (updatedLocation) => {
-        if(updatedLocation !== undefined){
-            setViewport({
-                longitude: updatedLocation.location.address.geoPoint.longitude,
-                latitude: updatedLocation.location.address.geoPoint.latitude,
-                zoom: 10,
+    const searchForAnotherRestaurant = async (locationId, page) => {
+
+        page = page + 1
+
+        let price
+
+            if(chosenPrice === "Cheap") {
+                price = "$"
+            } else if(chosenPrice === "Reasonably priced") {
+                price = "$$ - $$$"
+            } else if(chosenPrice === "Expensive") {
+                price = "$$$$"
+            } else {
+                price = ""
+            }
+
+            try {
+
+            const restaurantData = await fetchRestaurantsByLocationId(locationId, page)
+            window.sessionStorage.setItem("Page", page);
+
+            const filteredRestaurants = [];
+            const unFilteredRestaurants = [];
+            const restaurant = [];
+
+            const numberOfRestaurantPages = restaurantData.data.data.totalPages
+
+            function filteringRestaurantData(data) {
+                data.forEach((element, index, array) => {
+                    if(element.establishmentTypeAndCuisineTags.includes(chosenCuisine) && element.priceTag === price){
+                        filteredRestaurants.push(element);
+                    } else if(chosenCuisine === "" && element.priceTag === price){
+                        filteredRestaurants.push(element);
+                    } else if(element.establishmentTypeAndCuisineTags.includes(chosenCuisine) && price === ""){
+                        filteredRestaurants.push(element);
+                    } else if(chosenCuisine === "" && price === ""){
+                        unFilteredRestaurants.push(element);
+                    }
+                })
+            }
+
+            filteringRestaurantData(restaurantData.data.data.data)
+
+            const filteredRestaurantCount = filteredRestaurants.length;
+            const nonFilteredRestaurantCount = unFilteredRestaurants.length;
+
+            if(filteredRestaurantCount === 0 && (chosenCuisine !== "" || chosenPrice !== "")){
+                
+                while (filteredRestaurants.length === 0) {
+
+                    page++
+
+                    if (page > numberOfRestaurantPages || page === 41) break;
+
+                    const restaurantData2 = await fetchRestaurantsByLocationId(locationId, page)
+                    filteringRestaurantData(restaurantData2.data.data.data);
+                }
+
+                window.sessionStorage.setItem("Page", page);
+
+                restaurant.push(filteredRestaurants[0]);
+
+            } else if(filteredRestaurantCount !== 0){
+                    const randomIndex = Math.floor(Math.random() * (filteredRestaurantCount - 0) + 0)
+                    restaurant.push(filteredRestaurants[randomIndex]);
+            } else {
+                    const randomIndex = Math.floor(Math.random() * (nonFilteredRestaurantCount - 0) + 0)
+                    restaurant.push(unFilteredRestaurants[randomIndex]);
+            }
+
+            const data = await fetchRestaurantDetailsById(restaurant[0].restaurantsId);
+            setRestaurant(data.data.data);
+
+            data.data.data.about.content.map((data, index) => {
+                if(data.__typename === "AppPresentation_ContactSubsection"){
+                    data.contactLinks.map((data, index) => {
+                        if(data.link.trackingContext === "server_website"){
+                            setRestaurantURL(data.link.externalUrl);
+                        } 
+                    })
+                } 
             })
-        }
+
+            const vegetarianString = data.data.data.overview.accessibleTags.text;
+            let lowerCaseVegetarianString = vegetarianString.toLowerCase()
+            
+            if(lowerCaseVegetarianString.includes('vegetarian friendly')){
+                setVegetarianFriendly("Yes");
+            }
+
+            changeViewPoint(data.data.data);
+            setPopUpOpen(true);
+
+        } catch (error){
+          console.error(error);
+          setIncorrectFilters(true);
+          setRestaurant(undefined);
+          setRestaurantURL(undefined);
+        } 
     }
-
-    const [popUpOpen, setPopUpOpen] = useState(false);
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpen2, setIsOpen2] = useState(false)
-
-    const cuisines = [
-        "British", 
-        "Asian", 
-        "European",
-        "Italian",
-        "Indian",
-        "Turkish",
-        "Chinese",
-        "Japanese",
-        "French",
-        "Spanish",
-        "Mexican",
-        "Greek",
-        "Vietnamese",
-        "African",
-        "South American"
-    ];
-
-    const prices = ["Cheap", "Reasonably priced", "Expensive"]; 
-
-    const clearCuisineDropDown = () => {
-        if(chosenCuisine !== ""){
-            setChosenCuisine("")
-        }
-    }
-
-    const clearPriceDropDown = () => {
-        if(chosenPrice !== ""){
-            setChosenPrice("")
-        }
-    }
-
-    const dropdownList = useRef(null)
-    const dropdownList2 = useRef(null)
-
-    const closeCuisineDropdown = (e)=>{
-        if(isOpen && !dropdownList.current?.contains(e.target)){
-          setIsOpen(false)
-        }
-    }
-
-    const closePriceDropdown = (e)=>{
-        if(isOpen2 && !dropdownList2.current?.contains(e.target)){
-          setIsOpen2(false)
-        }
-    }
-
-    document.addEventListener('mousedown',closeCuisineDropdown)
-    document.addEventListener('mousedown',closePriceDropdown)
 
     return (
-        <div>
+        <div className="home-page">
             <div className="filter-container">
                 <h2 className="filter-header">Find a local place to eat out!</h2>
 
                     <div className="filter-options">
-                        <div className="filter-option-cuisine">
-                            <h3>Cuisine</h3>
-
-                                <div ref={dropdownList}>
-                                    <h4 className="select-option-title">Select an option</h4>
-                                    <button onClick={() => setIsOpen(true)} className="filter-select-options-btn">{chosenCuisine}</button>
-
-                                    <ClearIcon className="clear-btn" onClick={() => clearCuisineDropDown()}></ClearIcon>
-
-                                    {isOpen && (
-                                        <div className="dropdown-options">
-                                            {cuisines.map(option => (
-                                                <button 
-                                                    key={option} 
-                                                    onClick={() => {
-                                                        setChosenCuisine(option)
-                                                        setIsOpen(false)}} 
-                                                    className="dropdown-option">
-                                                    {option}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                        <h3 className="filter-options-title">Options</h3>
+                        <Stack spacing={3}>
+                        <div>
+                            <Box sx={{width: '95%'}}>
+                                <FormControl sx={{marginLeft: 1}} fullWidth>
+                                    <Autocomplete
+                                        disablePortal
+                                        options={Constants.cuisines}
+                                        sx={{ width: '100%' }}
+                                        renderInput={(params) => <TextField {...params} label="Cuisine" />}
+                                        onChange={(event) => {
+                                            setChosenCuisine(event.target.textContent);
+                                        }}
+                                    />
+                                </FormControl>
+                            </Box> 
                         </div>
 
-                        <div className="filter-option-price">
-                            <h3>Price</h3>
-
-                                <div ref={dropdownList2}>  
-                                    <h4 className="select-option-title">Select an option</h4>
-                                    <button onClick={() => setIsOpen2(true)} className="filter-select-options-btn">{chosenPrice}</button>
-
-                                    <ClearIcon className="clear-btn" onClick={() => clearPriceDropDown()}></ClearIcon>
-
-                                    {isOpen2 && (
-                                        <div className="dropdown-options">
-                                            {prices.map(option => (
-                                                <button 
-                                                    key={option} 
-                                                    onClick={() => {
-                                                        setChosenPrice(option)
-                                                        setIsOpen2(false)
-                                                    }} 
-                                                    className="dropdown-option">
-                                                    {option}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                        <div>
+                            <Box sx={{width: '95%'}}>
+                                <FormControl sx={{marginLeft: 1}} fullWidth>
+                                    <Autocomplete
+                                        disablePortal
+                                        options={Constants.prices}
+                                        sx={{ width: '100%' }}
+                                        renderInput={(params) => <TextField {...params} label="Price"/>}
+                                        onChange={(event) => {
+                                            setChosenPrice(event.target.textContent);
+                                        }}
+                                    />
+                                </FormControl>
+                            </Box>
                         </div>
+                        </Stack>
 
                     </div>
 
                     <div className="filter-buttons">
                         <div>
                             <button className="search-btn" onClick={() => {
-                                restaurantCall();
+                                initialRestaurantCall();
                                 }}
                             >Search</button>
                         </div>
@@ -286,12 +328,20 @@ function Filter() {
                 <Map
                     mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
                     {...viewport}
-                    style={{width: "100%", height: "80vh"}}
-                    mapStyle="mapbox://styles/mapbox/dark-v11"
+                    minZoom={4}
+                    maxZoom={14}
+                    onMove={evt => setViewport(evt.viewState)}
+                    style={{width: "auto", height: "81.5vh"}}
+                    mapStyle="mapbox://styles/mapbox/light-v11"
+                    onRender={(event) => event.target.resize()}
                 >
 
-                 <div className={`no-data-message-${incorrectTown ? "show" : "hide"}`}>
+                 <div className={`incorrect-town-message-${incorrectTown ? "show" : "hide"}`}>
                     <h4>Please update your town in your profile</h4>
+                </div>
+
+                <div className={`incorrect-filters-message-${incorrectFilters ? "show" : "hide"}`}>
+                    <h4>No restaurants found with those filters. Please alter them.</h4>
                 </div>
 
                        { specificRestaurant !== undefined && restaurantURL !== undefined && ( 
@@ -301,7 +351,6 @@ function Filter() {
                             latitude={restaurantData.location.address.geoPoint.latitude}
                             onClick={(e) => {
                                 e.originalEvent.stopPropagation();
-                                changeViewPoint(restaurantData)
                                 setPopUpOpen(true);}}
                             anchor = "bottom"
                             >
@@ -326,11 +375,16 @@ function Filter() {
                                     <p>{restaurantData.location.address.address}</p>
                                     <p>Website: <a href={restaurantWebsite} target="_blank">{restaurantData.overview.name}</a></p>
                                     <p>Vegetarian Friendly?: {vegetarianFriendly}</p>
-                            
+                                    <button className="pop-up-search-btn" onClick={() => {
+                                        searchForAnotherRestaurant(locationId, page)
+                                        setPopUpOpen(false);
+                                    }}>Want to search for another restaurant?</button>
                                 </span>
                             </Popup> 
                         
-                        )} 
+                        )}
+
+                        <NavigationControl position={"bottom-right"}/>
                     </Map>
             </div>
 

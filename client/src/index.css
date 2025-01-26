@@ -22,10 +22,9 @@ ul select {
 }
 
 .navbar--container {
-  background-color: #80A1C1;
+  background-color: #0096FF;
   display: flex;
   justify-content: space-between;
-  border-bottom: solid 2px white;
 }
 
 .navbar-dropdown {
@@ -33,10 +32,10 @@ ul select {
   right: 10px;
   top: 75px;
   z-index: 2;
-  color: #80A1C1;
+  color: #0096FF;
   font-size: 16px;
   font-weight: bold;
-  border: 1px solid #80A1C1;
+  border: 1px solid #0096FF;
   border-radius: 10px 0px 10px 10px;
   background-color: white;
 }
@@ -44,14 +43,14 @@ ul select {
 .navbar-dropdown:before {
   content: '';
   position: absolute;
-  top: -8.5px;
-  right: 3px;
+  top: -8.4px;
+  right: 2.7px;
   width: 15px;
   height: 15px;
   transform: rotate(45deg);
   background-color: white;
-  border-left: 1px solid #80A1C1;
-  border-top: 1px solid #80A1C1;
+  border-left: 1px solid #0096FF;
+  border-top: 1px solid #0096FF;
 }
 
 .navbar-dropdown li {
@@ -70,54 +69,54 @@ ul select {
 }
 
 .filter-container {
-  background-color: #E7ECEF;
-  border: 2.5px solid #80A1C1;
-  border-radius: 10px;
-  margin: auto;
-  margin-top: 10px!important;
-  margin-bottom: 10px!important;
-  width: 40%
-}
-
-@media screen and (max-width: 400px) {
-  
-  .filter-container {
-    width: 100%;
-  }
-  
+  background-color: #F5F5F5;
+  border-right: 2.5px solid #0096FF;
+  flex-grow: 0.5;
 }
 
 .filter-header {
-  text-align: center;
+  margin-left: 10px;
 }
 
 .filter-buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .search-btn {
   padding: 12px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 0.5px solid #80A1C1;
-  border-radius: 60%;
-  background-color: #80A1C1;
+  margin: 10px 10px 10px 0px;
+  border: 0.5px solid #0096FF;
+  border-radius: 5px;
+  background-color: #0096FF;
   color: white;
   width: 100px;
   font-size: 16px;
+}
+
+.pop-up-search-btn {
+  padding: 10px;
+  border: 0.5px solid #0096FF;
+  border-radius: 5px;
+  background-color: #0096FF;
+  color: white;
+  font-size: 14px;
 }
 
 .search-btn:hover {
   cursor: pointer;
 }
 
+.pop-up-search-btn {
+  cursor: pointer;
+}
+
 .zoom-btn-show {
   margin-left: 15px;
   font-size: 16px;
-  color: #80A1C1;
-  text-decoration: #80A1C1 underline;
+  color: #0096FF;
+  text-decoration: #0096FF underline;
   border: none;
 }
 
@@ -130,8 +129,7 @@ ul select {
 }
 
 .footer--container {
-  background-color: #80A1C1;
-  border-top: solid 2px white;
+  background-color: #0096FF;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -151,7 +149,7 @@ ul select {
 }
 
 .left-arrow {
-  border: solid #80A1C1 ;
+  border: solid #0096FF ;
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
@@ -162,8 +160,8 @@ ul select {
 .back-button {
   margin-left: 0px;
   font-size: 18px;
-  color: #80A1C1;
-  text-decoration: #80A1C1 underline;
+  color: #0096FF;
+  text-decoration: #0096FF underline;
   background-color: white;
   border: none;
   cursor: pointer;
@@ -172,36 +170,22 @@ ul select {
 .user-container {
   width: 42%;
   margin: auto;
-  border: solid 1px #80A1C1;
+  border: solid 1px #0096FF;
   border-radius: 10px;
   height: 550px;
 }
 
-@media screen and (max-width: 400px) {
-  
-  .user-container {
-    width: 95%;
-    padding-right: 10px;
-    height: 650px;
-  }
-  
-}
-
-.user-profile-title {
-  text-align: center;
-}
-
-.user-container li {
-  padding: 10px;
-  margin: 0px 15px 15px 0px;
+.user-profile-title-items {
+  display: flex;
+  justify-content: center;
 }
 
 .user-profile-edit-btn {
   margin-right: 10px;
   padding: 12px;
-  border: 0.5px solid #80A1C1;
-  border-radius: 60%;
-  background-color: #80A1C1;
+  border: 0.5px solid #0096FF;
+  border-radius: 5px;
+  background-color: #0096FF;
   color: white;
   width: 150px;
   font-size: 16px;
@@ -213,45 +197,31 @@ ul select {
 }
 
 .user-details-container {
-  display: flex;
-  flex-direction: column;
+  margin: auto;
+  margin-top: 10px;
+  width: 40%;
+  border: solid 1px #0096FF;
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.user-details {
-  display: flex;
-  align-items: baseline;
+.user-details span {
+  font-weight: bold;
+  margin-right: 5px;
 }
 
-.user-details input {
-  width: 250px;
-  padding: 5px;
-  margin-left: 20px;
-}
-
-@media screen and (max-width: 400px) {
-  
-  .user-details input {
-    margin-top: 10px;
-    margin-left: 0px;
-  }
-  
+.user-deets {
+  border: solid 1px black;
+  border-radius: 5px;
 }
 
 .signup-container {
   width: 40%;
   margin: auto;
   margin-top: 20px;
-  border: solid 1px #80A1C1;
+  border: solid 1px #0096FF;
   border-radius: 10px;
   padding: 10px;
-}
-
-@media screen and (max-width: 400px) {
-  
-  .signup-container {
-    width: 80%;
-  }
-  
 }
 
 .signup-title {
@@ -279,9 +249,9 @@ ul select {
 .signup-btn {
   margin: auto;
   padding: 12px;
-  border: 0.5px solid #80A1C1;
+  border: 0.5px solid #0096FF;
   border-radius: 60%;
-  background-color: #80A1C1;
+  background-color: #0096FF;
   color: white;
   width: 150px;
   font-size: 16px;
@@ -289,21 +259,8 @@ ul select {
   height: 50px;
 }
 
-@media screen and (max-width: 400px) {
-  
-  .signup-btn {
-    align-self: auto;
-  }
-  
-}
-
 .signup-btn:hover {
   cursor: pointer;
-}
-
-.signup-warning {
-  font-size: 12px;
-  font-weight: bold;
 }
 
 .login-container {
@@ -315,14 +272,6 @@ ul select {
   padding: 10px;
 }
 
-@media screen and (max-width: 400px) {
-  
-  .login-container {
-    width: 80%;
-  }
-  
-}
-
 .login-title {
   text-align: center;
 }
@@ -330,23 +279,18 @@ ul select {
 .login-inputs {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
 }
 
-.login-inputs input {
-  width: 50%;
-  padding: 5px;
-  margin: 5px 0px 15px 0px;
-  justify-self: center;
+.login-inputs button {
+  align-self: center;
 }
 
 .login-btn {
   margin: auto;
   padding: 12px;
-  border: 0.5px solid #80A1C1;
-  border-radius: 60%;
-  background-color: #80A1C1;
+  border: 0.5px solid #0096FF;
+  border-radius: 5px;
+  background-color: #0096FF;
   color: white;
   width: 150px;
   font-size: 16px;
@@ -356,10 +300,17 @@ ul select {
   cursor: pointer;
 }
 
-.login-status {
+.login-status-error {
   color: red;
   font-weight: bold;
   text-align: center;
+  background-color: #FDEDED;
+  padding: 5px;
+  width: 20%;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 5px;
+  border: solid 1px red;
 }
 
 .create-profile {
@@ -382,7 +333,7 @@ ul select {
 }
 
 .login-title-container {
-  background-color: #80A1C1;
+  background-color: #0096FF;
   padding: 30px;
 }
 
@@ -396,42 +347,55 @@ ul select {
   text-align: center;
 }
 
-.no-data-message-show {
+.incorrect-town-message-show {
   position: absolute;
-  z-index: 1;
   color: red;
-  text-align: center;
-  left: 450px;
+  left: 500px;
+  font-size: 18px;
 }
 
-.no-data-message-hide {
+.incorrect-town-message-hide {
+  visibility: hidden;
+}
+
+.incorrect-filters-message-show {
+  position: absolute;
+  color: red;
+  left: 300px;
+  top: 25px;
+  font-size: 18px;
+}
+
+.incorrect-filters-message-hide {
   visibility: hidden;
 }
 
 .filter-options {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.filter-options-title {
+  margin-left: 10px;
 }
 
 .filter-option-cuisine {
-  margin-right: 20px;
-  align-items: center;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  margin-left: 10px;
 }
 
 .filter-option-price {
-  margin-left: 20px;
-  align-items: center;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  margin-left: 10px;
 }
 
 .filter-select-options-btn {
-  background-color: #E7ECEF;
-  border: solid #80A1C1 0.5px;
+  background-color: #F5F5F5;
+  border: solid #0096FF 0.5px;
   border-radius: 3px;
   padding: 6px;
   width: 150px;
@@ -451,7 +415,7 @@ ul select {
 }
 
 .dropdown-option{ 
-  border: solid #80A1C1 0.5px;
+  border: solid #0096FF 0.5px;
   padding: 5px;
 }
 
@@ -470,10 +434,40 @@ ul select {
 
 .clear-btn {
   position: absolute;
-  color: #80A1C1;
+  color: #0096FF;
   font-weight: bold;
 }
 
 .clear-btn:hover {
   cursor: pointer;
+}
+
+.edit-modal-title {
+  text-align: center;
+  margin-top: 0px;
+  color: #0096FF
+}
+
+.home-page {
+  display: flex;
+}
+
+.map-container {
+  flex-grow: 9.5;
+}
+
+.user-created-successfully {
+  text-align: center;
+  color: #4BB543;
+  font-weight: bold;
+  background-color: #CEEACE;
+  border: solid 1px #4BB543;
+  border-radius: 5px;
+  width: 20%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.user-created-hide {
+  visibility: hidden;
 }
