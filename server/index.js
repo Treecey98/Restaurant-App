@@ -15,7 +15,7 @@ const PORT = 3001
 
 app.use(
     cors({
-        origin: "https://easy-eats-api.onrender.com",
+        origin: "https://easy-eats.onrender.com",
         methods: ["GET","POST","PUT"],
         credentials: true
     })
