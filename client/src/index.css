@@ -471,3 +471,19 @@ ul select {
 .user-created-hide {
   visibility: hidden;
 }
+
+@media screen and (max-width: 400px) {
+  
+  .login-container {
+    width: 80%;
+  }
+  
+}
+
+@media screen and (max-width: 400px) {
+  
+  .signup-container {
+    width: 80%;
+  }
+  
+}
