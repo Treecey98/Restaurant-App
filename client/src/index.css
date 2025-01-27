@@ -477,13 +477,16 @@ ul select {
   .login-container {
     width: 80%;
   }
-  
-}
 
-@media screen and (max-width: 400px) {
-  
   .signup-container {
     width: 80%;
   }
+
+  .home-page {
+    display: block;
+  }
   
+  .filter-container {
+    width: 100%;
+  }
 }
