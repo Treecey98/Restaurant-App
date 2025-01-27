@@ -11,7 +11,7 @@ import { FormControl, Box, Stack, Autocomplete, TextField } from '@mui/material'
 import * as Constants from '../constants/constant';
 
 function Filter() {
-
+    
     let {userId} = useParams();
 
     const[userAddressDetails, setAddressDetails] = useState([])
@@ -367,6 +367,7 @@ function Filter() {
                                 onClose={() => setPopUpOpen(false)}
                                 closeButton={true}
                                 offsetLeft={10}
+                                maxWidth='300px'
                             >
                                 <span>
                                     <h4 className="map-marker-title">{restaurantData.overview.name}</h4>
