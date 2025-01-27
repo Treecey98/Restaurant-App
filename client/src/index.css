@@ -498,4 +498,10 @@ ul select {
     height: 650px;
   }
   
+  .incorrect-town-message-show {
+    position: relative;
+    color: red;
+    font-size: 18;
+  }
+
 }
