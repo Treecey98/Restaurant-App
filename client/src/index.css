@@ -487,8 +487,9 @@ ul select {
   }
   
   .filter-container {
-    width: 100%;
+    width: 80%;
     border-bottom: 2.5px solid #0096FF;
     margin-top: 0px;
+    height: fit-content;
   }
 }
