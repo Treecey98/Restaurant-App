@@ -493,4 +493,10 @@ ul select {
     margin-top: 0px;
     height: 100%;
   }
+
+  .incorrect-town-message-show{
+    position: absolute;
+    color: red;
+    font-size: 18px;
+  }
 }
