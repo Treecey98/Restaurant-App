@@ -500,10 +500,11 @@ ul select {
   }
   
   .incorrect-town-message-show {
-    position: absolute;
-    color: red;
-    font-size: 18;
-    left: 0px;
+    left: 20px;
+  }
+
+  .incorrect-filters-message-show {
+    left: 20px;
   }
 
 }
