@@ -349,7 +349,8 @@ ul select {
 .incorrect-town-message-show {
   position: absolute;
   color: red;
-  left: 500px;
+  left: 300px;
+  top: 25px;
   font-size: 18px;
 }
 
@@ -499,9 +500,10 @@ ul select {
   }
   
   .incorrect-town-message-show {
-    position: relative;
+    position: absolute;
     color: red;
     font-size: 18;
+    left: 0px;
   }
 
 }
