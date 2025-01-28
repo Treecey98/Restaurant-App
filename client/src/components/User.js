@@ -25,6 +25,8 @@ function User() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [updatedData, getUpdatedData] = useState(false);
+
     useEffect(() => {
         Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
             setName(response.data[0].name)
@@ -38,11 +40,13 @@ function User() {
                 address: `${response.data[0].address1}, ${response.data[0].address2}, ${response.data[0].postcode}, ${response.data[0].country}`
             })
         })
-    }, [open]);
+    }, [updatedData]);
 
     const updateUserDetails = (data) => {
         
         Axios.put(`https://easy-eats-api.onrender.com/updateUserDetails/${userId}`, (data))
+
+        getUpdatedData(true);
 
         handleClose()
     }
