@@ -142,4 +142,8 @@ app.put('/updateUserDetails/:userId', (req, res) => {
         "UPDATE Users SET name = ?, email = ?, address1 = ?, address2= ?, postcode = ?, country = ? WHERE id = ?",
         [fullname, email, address1, address2, postcode, country, id],
     )
+
+    if(res.status(200)){
+        res.send({message: "Updates made successfully"});
+    }
 })
