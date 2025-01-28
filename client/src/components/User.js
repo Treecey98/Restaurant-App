@@ -38,7 +38,7 @@ function User() {
                 address: `${response.data[0].address1}, ${response.data[0].address2}, ${response.data[0].postcode}, ${response.data[0].country}`
             })
         })
-    }, [userId, open]);
+    }, [open]);
 
     const updateUserDetails = (data) => {
         
