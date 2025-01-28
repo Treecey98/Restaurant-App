@@ -42,9 +42,9 @@ function User() {
 
     const updateUserDetails = async (data) => {
         
-        await Axios.put(`http://localhost:3001/updateUserDetails/${userId}`, (data));
+        await Axios.put(`https://easy-eats-api.onrender.com/updateUserDetails/${userId}`, (data));
 
-        Axios.get(`http://localhost:3001/userDetails/${userId}`).then((response) => {
+        Axios.get(`https://easy-eats-api.onrender.com/userDetails/${userId}`).then((response) => {
             setName(response.data[0].name)
             setEmail(response.data[0].email)
             setAddress1(response.data[0].address1)
